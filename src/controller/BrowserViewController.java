@@ -62,8 +62,8 @@ public class BrowserViewController implements Initializable
     }
 
     @FXML
-    WebTab createNewTab(ActionEvent event) {
-        return new WebTab(this);
+    void createNewTab(ActionEvent event) {
+        new WebTab(this);
     }
 
     @FXML
@@ -162,6 +162,7 @@ public class BrowserViewController implements Initializable
         menuGoogle.setGraphic(googleMenuImage);
         menuYahoo.setGraphic(yahooMenuImage);
         WebTab.setController(this);
+        HistoryViewController.setController(this);
         BrowserViewController c = this;
         Platform.runLater(new Runnable() {
             @Override

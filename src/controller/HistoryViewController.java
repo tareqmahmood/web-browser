@@ -1,15 +1,14 @@
 package controller;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import main.Main;
 import model.WebPage;
+import model.WebTab;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -21,7 +20,8 @@ import java.util.ResourceBundle;
  */
 public class HistoryViewController implements Initializable
 {
-    public Main main;
+    public static Main main;
+    public static BrowserViewController controller;
     public static ArrayList<WebPage> deletePageList = new ArrayList<>();
 
     @FXML
@@ -68,10 +68,25 @@ public class HistoryViewController implements Initializable
         columnTime.setStyle("-fx-alignment: center");
         columnTitle.setStyle("-fx-alignment: center");
         tableHistory.setItems(Main.webPageList);
+        tableHistory.setRowFactory(tv -> {
+            TableRow<WebPage> row = new TableRow<>();
+            row.setOnMouseClicked(e -> {
+                if (e.getClickCount() == 2 && (!row.isEmpty())) {
+                    WebPage rowData = row.getItem();
+                    new WebTab(controller, rowData.getUrl());
+                }
+            });
+            return row;
+        });
     }
 
-    public void setMain(Main main)
+    public static void setMain(Main m)
     {
-        this.main = main;
+        main = m;
+    }
+
+    public static void setController(BrowserViewController c)
+    {
+        controller = c;
     }
 }

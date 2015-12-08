@@ -38,6 +38,7 @@ public class HistoryTab implements Runnable {
                     try {
                         historyRoot = loader.load(getClass().getResource("/view/HistoryView.fxml"));
                         hController = loader.getController();
+
                         //hController.setMain(main);
                     } catch (IOException e) {
                         e.printStackTrace();

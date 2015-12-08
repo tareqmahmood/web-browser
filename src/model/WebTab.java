@@ -63,10 +63,11 @@ public class WebTab {
 
     public WebTab(BrowserViewController controller, String url)
     {
+        this.controller = controller;
+        this.url = url;
         my = this;
         tab = new Tab("Home");
         pi = new ProgressIndicator();
-        this.controller = controller;
         forwardStack = new Stack<>();
         backwardStack = new Stack<>();
         controller.tabPane.getTabs().add(tab);
@@ -156,7 +157,6 @@ public class WebTab {
 
                 });
         //webEngine.getLoadWorker().stateProperty().addListener();
-        this.url = url;
         main.tabWebTabHashtable.put(tab, this);
         pi.setPrefSize(16, 16);
         if(this.url.equals("Home"))

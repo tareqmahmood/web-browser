@@ -3,6 +3,7 @@ package main; /**
  */
 
 import controller.BrowserViewController;
+import controller.HistoryViewController;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,7 +23,7 @@ import java.util.Hashtable;
 public class Main extends Application {
 
     public Stage stage;
-    public static BrowserViewController browserController;
+    public BrowserViewController browserController;
     public final Hashtable<Tab, WebTab> tabWebTabHashtable = new Hashtable<>();
     public static ObservableList<WebPage> webPageList = FXCollections.observableArrayList();
 
@@ -44,6 +45,7 @@ public class Main extends Application {
         browserController = loader.getController();
         BrowserViewController.setMain(this);
         WebTab.setMain(this);
+        HistoryViewController.setMain(this);
         Scene scene = new Scene(root, 663, 508);
         //scene.getStylesheets().add("sample/progress.css");
         primaryStage.setScene(scene);
