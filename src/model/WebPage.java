@@ -10,16 +10,18 @@ import java.util.Date;
 /**
  * Created by tareq on 12/3/2015.
  */
-public class WebPage implements Serializable {
+public class WebPage {
     CheckBox checkBox;
     SimpleStringProperty url;
     SimpleStringProperty title;
+    SimpleStringProperty time;
+
     Date date;
 
-    public WebPage(String url, String title, Date date) {
+    public WebPage(String url, String title, String time) {
         this.url = new SimpleStringProperty(url);
         this.title = new SimpleStringProperty(title);
-        this.date = date;
+        this.time = new SimpleStringProperty(time);
         checkBox = new CheckBox();
         checkBox.setText(null);
         checkBox.setOnAction(event -> {
@@ -34,6 +36,10 @@ public class WebPage implements Serializable {
             }
         });
         checkBox.setSelected(false);
+    }
+
+    public WebPage(String url, String title, Date date) {
+        this(url, title, date.toString());
     }
 
     public String getUrl() {
@@ -74,5 +80,15 @@ public class WebPage implements Serializable {
 
     public void setCheckBox(CheckBox checkBox) {
         this.checkBox = checkBox;
+    }
+
+    public String getTime() { return time.get(); }
+
+    public SimpleStringProperty timeProperty() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time.set(time);
     }
 }

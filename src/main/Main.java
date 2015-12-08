@@ -14,6 +14,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import model.HistoryManager;
 import model.WebPage;
 import model.WebTab;
 
@@ -26,11 +27,12 @@ public class Main extends Application {
     public BrowserViewController browserController;
     public final Hashtable<Tab, WebTab> tabWebTabHashtable = new Hashtable<>();
     public static ObservableList<WebPage> webPageList = FXCollections.observableArrayList();
+    public HistoryManager historyManager;
 
     @Override
     public void init()
     {
-
+        historyManager = new HistoryManager();
     }
 
 
@@ -51,6 +53,13 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
 
+    }
+
+    @Override
+    public void stop()
+    {
+        System.out.println("Exiting...");
+        historyManager.saveHistory();
     }
 
     public static void main(String[] args) {

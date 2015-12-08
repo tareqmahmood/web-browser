@@ -1,8 +1,10 @@
 package model;
 
+import javafx.collections.ObservableList;
 import main.Main;
 
 import java.io.*;
+import java.util.Date;
 
 /**
  * Created by tareq on 12/4/2015.
@@ -10,14 +12,28 @@ import java.io.*;
 public class HistoryManager implements Runnable
 {
     String filename = "/files/history.txt";
+    public final File file = new File("D:\\Term Project\\Web Browser\\res\\files\\history.txt");
+    int length;
     FileInputStream fis;
-    ObjectInputStream ois;
+    BufferedReader br;
     FileOutputStream fos;
-    ObjectOutputStream oos;
+    BufferedWriter bw;
     Thread thr;
     WebPage page;
+    String url;
+    String title;
+    String time;
+    Date date;
     public HistoryManager()
     {
+        System.out.println("opening " + file.getName());
+        try {
+            fis = new FileInputStream(file);
+            br = new BufferedReader(new InputStreamReader(fis));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
         thr = new Thread(this);
         thr.start();
     }
@@ -25,39 +41,45 @@ public class HistoryManager implements Runnable
     @Override
     public void run() {
         try {
-            fis = new FileInputStream(filename);
-            ois = new ObjectInputStream(fis);
-            while(true)
+
+            length = br.read();
+            br.readLine();
+            if(length <= 0) length = 0;
+            else length = length - 48;
+            for(int i = 0; i < length; i++)
             {
-                page = (WebPage) ois.readObject();
-                if(page == null) break;
-                Main.webPageList.add(page);
+                time = br.readLine();
+                title = br.readLine();
+                url = br.readLine();
+                Main.webPageList.add(new WebPage(url, title, time));
             }
-            ois.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (EOFException e)
-        {
-            try {
-                ois.close();
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
+            br.close();
         } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
 
 
-    public static void saveHistory()
+    public void saveHistory()
     {
-        int len = Main.webPageList.size();
-        //Main.webPageList.
-        for(int i = 0; i < len; i++)
-        {
-            Main.webPageList.iterator();
+        try {
+            fos = new FileOutputStream(file);
+            bw = new BufferedWriter(new OutputStreamWriter(fos));
+            length = Main.webPageList.size();
+            System.out.println(length);
+            bw.write(length + "\n");
+            for(int i = 0; i < length; i++)
+            {
+                page = Main.webPageList.get(i);
+                bw.write(page.getTime() + "\n");
+                bw.write(page.getTitle() + "\n");
+                bw.write(page.getUrl() + "\n");
+            }
+            bw.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

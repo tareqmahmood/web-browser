@@ -31,7 +31,7 @@ public class HistoryViewController implements Initializable
     private TableColumn<WebPage, CheckBox> columnSelect;
 
     @FXML
-    private TableColumn<WebPage, Date> columnTime;
+    private TableColumn<WebPage, String> columnTime;
 
     @FXML
     private TableColumn<WebPage, String> columnTitle;
@@ -61,7 +61,7 @@ public class HistoryViewController implements Initializable
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         columnSelect.setCellValueFactory(new PropertyValueFactory<WebPage, CheckBox>("checkBox"));
-        columnTime.setCellValueFactory(new PropertyValueFactory<WebPage, Date>("date"));
+        columnTime.setCellValueFactory(new PropertyValueFactory<WebPage, String>("time"));
         columnTitle.setCellValueFactory(new PropertyValueFactory<WebPage, String>("title"));
         columnURL.setCellValueFactory(new PropertyValueFactory<WebPage, String>("url"));
         //main.webPageList.add(new WebPage("http://google.com", "Google", new Date()));
