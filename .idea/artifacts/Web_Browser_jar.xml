@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Web Browser:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Web_Browser_jar</output-path>
+    <root id="archive" name="Web Browser.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/res/files/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="module-output" name="Web Browser" />
+    </root>
+  </artifact>
+</component>
