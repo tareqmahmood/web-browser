@@ -15,6 +15,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import model.HistoryManager;
+import model.HomePage;
 import model.WebPage;
 import model.WebTab;
 
@@ -24,15 +25,18 @@ import java.util.Hashtable;
 public class Main extends Application {
 
     public Stage stage;
+    public String searchEngine = "google";
     public BrowserViewController browserController;
     public final Hashtable<Tab, WebTab> tabWebTabHashtable = new Hashtable<>();
     public static ObservableList<WebPage> webPageList = FXCollections.observableArrayList();
+    //public static ObservableList
     public HistoryManager historyManager;
 
     @Override
     public void init()
     {
-        historyManager = new HistoryManager();
+        System.out.println("Starting...");
+        //historyManager = new HistoryManager();
     }
 
 
@@ -48,6 +52,7 @@ public class Main extends Application {
         BrowserViewController.setMain(this);
         WebTab.setMain(this);
         HistoryViewController.setMain(this);
+        HomePage.setMain(this);
         Scene scene = new Scene(root, 663, 508);
         //scene.getStylesheets().add("sample/progress.css");
         primaryStage.setScene(scene);
@@ -59,7 +64,7 @@ public class Main extends Application {
     public void stop()
     {
         System.out.println("Exiting...");
-        historyManager.saveHistory();
+        //historyManager.saveHistory();
     }
 
     public static void main(String[] args) {

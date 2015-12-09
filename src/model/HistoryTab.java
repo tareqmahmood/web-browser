@@ -30,24 +30,24 @@ public class HistoryTab implements Runnable {
     @Override
     public void run()
     {
-            Platform.runLater(new Runnable() {
-                @Override
-                public void run() {
-                    FXMLLoader loader = new FXMLLoader();
-                    Parent historyRoot = null;
-                    try {
-                        historyRoot = loader.load(getClass().getResource("/view/HistoryView.fxml"));
-                        hController = loader.getController();
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                FXMLLoader loader = new FXMLLoader();
+                Parent historyRoot = null;
+                try {
+                    historyRoot = loader.load(getClass().getResource("/view/HistoryView.fxml"));
+                    hController = loader.getController();
 
-                        //hController.setMain(main);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    Tab tab = new Tab("History");
-                    tab.setContent(historyRoot);
-                    tab.setGraphic(new ImageView("/images/history.png"));
-                    tabPane.getTabs().add(tab);
+                    //hController.setMain(main);
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-            });
+                Tab tab = new Tab("History");
+                tab.setContent(historyRoot);
+                tab.setGraphic(new ImageView("/images/history.png"));
+                tabPane.getTabs().add(tab);
+            }
+        });
     }
 }

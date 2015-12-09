@@ -9,12 +9,13 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Font;
+import main.Main;
 
 /**
  * Created by tareq on 12/3/2015.
  */
 public class HomePage {
-
+    public static Main main;
     public static StackPane showHomepage(WebTab webTab)
     {
         StackPane pane = new StackPane();
@@ -25,7 +26,7 @@ public class HomePage {
         //text.setMinWidth(300);
         //text.setMaxWidth(300);
         text.setPrefSize(400, 40);
-        text.setPromptText("Search in Google");
+        text.setPromptText("Search in " + main.searchEngine);
         text.setOnAction(event -> {
             String search = text.getText();
             String url = "http://www.google.com/search?q=";
@@ -37,8 +38,10 @@ public class HomePage {
         //text.setLayoutX(pane.getHeight() / 2);
         //text.setLayoutY(pane.getWidth() / 2);
         //text.setStyle("-fx-scale-x: 1");
-
-        ImageView imv = new ImageView("/images/google.png");
+        String path = null;
+        if(main.searchEngine.equals("google")) path = "/images/google.png";
+        else path = "/images/yahoo.png";
+        ImageView imv = new ImageView(path);
         fpane.getChildren().add(imv);
         fpane.getChildren().add(text);
         pane.getChildren().add(fpane);
@@ -49,5 +52,10 @@ public class HomePage {
 //        pane.setBottomStack(text, 0.0);
         //BorderPane borderPane = new BorderPane();
         return pane;
+    }
+
+    public static void setMain(Main m)
+    {
+        main = m;
     }
 }

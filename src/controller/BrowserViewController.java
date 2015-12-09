@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Circle;
@@ -20,11 +21,18 @@ public class BrowserViewController implements Initializable
     static private Main main;
     static String newTabDefault = "New tab";
     public String searchURL = "http://www.google.com/search?q=";
-    public String searchEngine = "google";
+
     public final ImageView googleImage = new ImageView("/images/google_search.png");
     public final ImageView yahooImage = new ImageView("/images/yahoo_search.png");
     public final ImageView googleMenuImage = new ImageView("/images/google_search.png");
     public final ImageView yahooMenuImage = new ImageView("/images/yahoo_search.png");
+    public final ImageView backwardImage = new ImageView("/images/Back.png");
+    public final ImageView forwardImage = new ImageView("/images/For.png");
+    public final ImageView newTabImage = new ImageView("/images/NewTab.png");
+    public final ImageView bookmarkFalse = new ImageView("/images/Bookmark_false.png");
+    public final ImageView bookmarkTrue = new ImageView("/images/Bookmark_true.png");
+    public final ImageView Google = new ImageView("/images/google.png");
+    public final ImageView Yahoo = new ImageView("/images/yahoo.png");
 
     @FXML
     public Button btnForward;
@@ -102,14 +110,14 @@ public class BrowserViewController implements Initializable
     @FXML
     void searchGoogleAction(ActionEvent event) {
         searchMenu.setGraphic(googleImage);
-        searchEngine = "google";
+        main.searchEngine = "google";
         searchURL = "http://www.google.com/search?q=";
     }
 
     @FXML
     void searchYahooAction(ActionEvent event) {
         searchMenu.setGraphic(yahooImage);
-        searchEngine = "yahoo";
+        main.searchEngine = "yahoo";
         searchURL = "search.yahoo.com/search?p=";
     }
 
@@ -161,6 +169,10 @@ public class BrowserViewController implements Initializable
         searchMenu.setGraphic(googleImage);
         menuGoogle.setGraphic(googleMenuImage);
         menuYahoo.setGraphic(yahooMenuImage);
+        btnBackword.setGraphic(backwardImage);
+        btnForward.setGraphic(forwardImage);
+        btnNewTab.setGraphic(newTabImage);
+        btnBookmark.setGraphic(bookmarkFalse);
         WebTab.setController(this);
         HistoryViewController.setController(this);
         BrowserViewController c = this;
