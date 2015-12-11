@@ -32,8 +32,8 @@ import java.util.Stack;
  */
 public class WebTab {
     WebTab my;
-    WebView webView;
-    WebEngine webEngine;
+    public WebView webView;
+    public WebEngine webEngine;
     Tab tab;
     Date date;
     int idx;
@@ -43,13 +43,14 @@ public class WebTab {
     java.net.CookieManager manager;
     static BrowserViewController controller;
     boolean downloadProperty = false;
+    public boolean isBookmarked = false;
+    public Link link;
     public Stack<String> forwardStack;
     public Stack<String> backwardStack;
     boolean backPressed = false;
     boolean forPressed = false;
     ProgressIndicator pi;
     public ImageView ImgWarning;
-
     public WebTab(BrowserViewController controller)
     {
         this(controller, "Home");
@@ -74,6 +75,7 @@ public class WebTab {
         tab.setOnSelectionChanged(new EventHandler<Event>() {
             @Override
             public void handle(Event event) {
+                controller.setBookMark(isBookmarked);
                 controller.txtUrlBar.setText(my.url);
             }
         });
@@ -123,11 +125,22 @@ public class WebTab {
                                 forwardStack.clear();
                             }
                             //System.out.println("load call : " + webEngine.getLocation());
-                            if (webEngine.getTitle() != null) tab.setGraphic(Favicon.getFavicon(webEngine.getLocation().toString()));
-                            date = new Date();
                             if (webEngine.getTitle() != null)
-                            {
+                                tab.setGraphic(Favicon.getFavicon(webEngine.getLocation().toString()));
+                            date = new Date();
+                            if (webEngine.getTitle() != null) {
                                 main.webPageList.add(0, new WebPage(webEngine.getLocation(), webEngine.getTitle(), date));
+//                                if(isBookmarked)
+//                                {
+//                                    link = new Link(webEngine.getTitle(), webEngine.getLocation());
+//                                    main.bookmarkList.add(0, link);
+//                                }
+
+                                isBookmarked = main.bookmarkedURL.contains(webEngine.getLocation());
+                                if(controller.tabPane.getSelectionModel().getSelectedItem() == tab)
+                                {
+                                    controller.setBookMark(isBookmarked);
+                                }
                             }
                         } else if (newState == State.FAILED) {
                             System.out.println("Error in connection");
@@ -137,6 +150,7 @@ public class WebTab {
                             tab.setContent(ErrorPage.showErrorPage());
                         } else if (newState == State.SCHEDULED) {
                             try {
+                                downloadProperty = false;
                                 my.url = webEngine.getLocation();
                                 idx = my.url.indexOf("//") + 2;
                                 if (my.url.length() > 30) tabText = my.url.substring(idx, 30);
@@ -148,15 +162,34 @@ public class WebTab {
                             } catch (Exception e) {
                                 System.out.println("Tab closed");
                             }
-                        }
-                        else if(newState == State.RUNNING)
-                        {
-                            if(webEngine.getTitle() != null) tab.setText(webEngine.getTitle());
+                        } else if (newState == State.RUNNING) {
+                            if(downloadProperty) webEngine.getLoadWorker().cancel();
+                            if (webEngine.getTitle() != null) tab.setText(webEngine.getTitle());
                         }
                     }
-
                 });
         //webEngine.getLoadWorker().stateProperty().addListener();
+        webEngine.locationProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                for(String ext: main.downloadableExtensions)
+                {
+                    if(newValue.endsWith(ext))
+                    {
+                        try {
+                            URL fileURL = new URL(newValue);
+                            System.out.println("Download : " + fileURL.getFile());
+                            downloadProperty = true;
+                            break;
+                            //webEngine.getLoadWorker().cancel();
+                        } catch (MalformedURLException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    downloadProperty = false;
+                }
+            }
+        });
         main.tabWebTabHashtable.put(tab, this);
         pi.setPrefSize(16, 16);
         if(this.url.equals("Home"))

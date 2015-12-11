@@ -10,7 +10,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Circle;
 import main.Main;
+import model.BookmarkTab;
 import model.HistoryTab;
+import model.Link;
 import model.WebTab;
 
 import java.net.URL;
@@ -21,6 +23,7 @@ public class BrowserViewController implements Initializable
     static private Main main;
     static String newTabDefault = "New tab";
     public String searchURL = "http://www.google.com/search?q=";
+    public String[] avoidTabs = {"Home", "History", "Bookmark"};
 
     public final ImageView googleImage = new ImageView("/images/google_search.png");
     public final ImageView yahooImage = new ImageView("/images/yahoo_search.png");
@@ -53,7 +56,7 @@ public class BrowserViewController implements Initializable
     private Button btnNewTab;
 
     @FXML
-    private ToggleButton btnBookmark;
+    public ToggleButton btnBookmark;
 
     @FXML
     private MenuButton searchMenu;
@@ -66,7 +69,32 @@ public class BrowserViewController implements Initializable
 
     @FXML
     void bookmarkAction(ActionEvent event) {
-
+        if(tabPane.getTabs().size() == 0) return;
+        System.out.println("Bookmarking");
+        Tab currentTab = tabPane.getSelectionModel().getSelectedItem();
+        for(String str : avoidTabs)
+        {
+            if(currentTab.getText().equals(str)) {
+                btnBookmark.setSelected(false);
+                return;
+            }
+        }
+        WebTab currentWebTab = main.tabWebTabHashtable.get(currentTab);
+        if(btnBookmark.isSelected())
+        {
+            btnBookmark.setGraphic(bookmarkTrue);
+            currentWebTab.isBookmarked = true;
+            currentWebTab.link = new Link(currentWebTab.webEngine.getTitle(), currentWebTab.webEngine.getLocation());
+            main.bookmarkList.add(0, currentWebTab.link);
+            main.bookmarkedURL.add(currentWebTab.webEngine.getLocation());
+        }
+        else
+        {
+            btnBookmark.setGraphic(bookmarkFalse);
+            currentWebTab.isBookmarked = false;
+            if(currentWebTab.link != null) main.bookmarkList.remove(currentWebTab.link);
+            main.bookmarkedURL.remove(currentWebTab.webEngine.getLocation());
+        }
     }
 
     @FXML
@@ -126,6 +154,11 @@ public class BrowserViewController implements Initializable
         new HistoryTab(tabPane, main);
     }
 
+    @FXML
+    void openBookmarkTab(ActionEvent event) {
+        new BookmarkTab(tabPane, main);
+    }
+
     void loadURL(String url)
     {
         url = smoothUrl(url);
@@ -159,6 +192,20 @@ public class BrowserViewController implements Initializable
         return url;
     }
 
+    public void setBookMark(boolean state)
+    {
+        if(state == true)
+        {
+            btnBookmark.setGraphic(bookmarkTrue);
+            btnBookmark.setSelected(true);
+        }
+        else
+        {
+            btnBookmark.setGraphic(bookmarkFalse);
+            btnBookmark.setSelected(false);
+        }
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.ALL_TABS);
@@ -175,6 +222,7 @@ public class BrowserViewController implements Initializable
         btnBookmark.setGraphic(bookmarkFalse);
         WebTab.setController(this);
         HistoryViewController.setController(this);
+        BookmarkViewController.setController(this);
         BrowserViewController c = this;
         Platform.runLater(new Runnable() {
             @Override
@@ -182,6 +230,7 @@ public class BrowserViewController implements Initializable
                 new WebTab(c);
             }
         });
+
     }
 
     public static void setMain(Main m)

@@ -2,6 +2,8 @@ package model;
 
 import controller.HistoryViewController;
 import javafx.application.Platform;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Tab;
@@ -44,6 +46,13 @@ public class HistoryTab implements Runnable {
                     e.printStackTrace();
                 }
                 Tab tab = new Tab("History");
+                tab.setOnSelectionChanged(new EventHandler<Event>() {
+                    @Override
+                    public void handle(Event event) {
+                        hController.controller.setBookMark(false);
+                        hController.controller.txtUrlBar.setText("History");
+                    }
+                });
                 tab.setContent(historyRoot);
                 tab.setGraphic(new ImageView("/images/history.png"));
                 tabPane.getTabs().add(tab);

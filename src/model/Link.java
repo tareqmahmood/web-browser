@@ -1,5 +1,6 @@
 package model;
 
+import controller.BookmarkViewController;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.control.CheckBox;
 
@@ -11,9 +12,23 @@ public class Link {
     SimpleStringProperty title;
     CheckBox checkBox;
 
-    public Link(SimpleStringProperty title, SimpleStringProperty url) {
-        this.title = title;
-        this.url = url;
+    public Link(String title, String url) {
+        this.title = new SimpleStringProperty(title);
+        this.url = new SimpleStringProperty(url);
+        checkBox = new CheckBox();
+        checkBox.setText(null);
+        checkBox.setOnAction(event -> {
+            if(checkBox.isSelected() == true)
+            {
+                BookmarkViewController.deleteBookmarkList.add(this);
+                BookmarkViewController.deleteBookmarkURL.add(getUrl());
+            }
+            else
+            {
+                BookmarkViewController.deleteBookmarkList.remove(this);
+                BookmarkViewController.deleteBookmarkURL.remove(getUrl());
+            }
+        });
     }
 
     public String getUrl() {

@@ -14,12 +14,10 @@ import javafx.scene.control.Tab;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import model.HistoryManager;
-import model.HomePage;
-import model.WebPage;
-import model.WebTab;
+import model.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Hashtable;
 
 public class Main extends Application {
@@ -29,14 +27,20 @@ public class Main extends Application {
     public BrowserViewController browserController;
     public final Hashtable<Tab, WebTab> tabWebTabHashtable = new Hashtable<>();
     public static ObservableList<WebPage> webPageList = FXCollections.observableArrayList();
+    public static ObservableList<Link> bookmarkList = FXCollections.observableArrayList();
+    public static ArrayList<String> bookmarkedURL = new ArrayList<>();
+
+    public String[] downloadableExtensions = {".doc", ".xls", ".zip", ".tgz", ".jar" , ".pdf", ".mp3"};
     //public static ObservableList
     public HistoryManager historyManager;
+    public BookmarkManager bookmarkManager;
 
     @Override
     public void init()
     {
         System.out.println("Starting...");
         //historyManager = new HistoryManager();
+        //bookmarkManager = new BookmarkManager();
     }
 
 
@@ -57,7 +61,6 @@ public class Main extends Application {
         //scene.getStylesheets().add("sample/progress.css");
         primaryStage.setScene(scene);
         primaryStage.show();
-
     }
 
     @Override
@@ -65,6 +68,7 @@ public class Main extends Application {
     {
         System.out.println("Exiting...");
         //historyManager.saveHistory();
+        //bookmarkManager.saveBookmark();
     }
 
     public static void main(String[] args) {

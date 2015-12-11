@@ -33,7 +33,7 @@
       <SplitMenuButton alignment="CENTER" layoutY="16.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="90.0" text="Menu">
         <items>
           <MenuItem mnemonicParsing="false" onAction="#openHistoryTab" text="History" />
-          <MenuItem mnemonicParsing="false" text="Bookmarks" />
+          <MenuItem mnemonicParsing="false" onAction="#openBookmarkTab" text="Bookmarks" />
         </items>
       </SplitMenuButton>
     </children>

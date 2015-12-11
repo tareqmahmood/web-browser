@@ -1,30 +1,26 @@
 package model;
 
-import javafx.collections.ObservableList;
 import main.Main;
 
 import java.io.*;
-import java.util.Date;
 
 /**
- * Created by tareq on 12/4/2015.
+ * Created by tareq on 12/11/2015.
  */
-public class HistoryManager implements Runnable
-{
-    String filename = "/files/history.txt";
-    public final File file = new File("D:\\Term Project\\Web Browser\\res\\files\\history.txt");
+public class BookmarkManager implements Runnable{
+    String filename = "/files/bookmark.txt";
+    public final File file = new File("D:\\Term Project\\Web Browser\\res\\files\\bookmark.txt");
     int length;
     FileInputStream fis;
     BufferedReader br;
     FileOutputStream fos;
     BufferedWriter bw;
     Thread thr;
-    WebPage page;
+    Link link;
     String url;
     String title;
-    String time;
-    Date date;
-    public HistoryManager()
+
+    public BookmarkManager()
     {
         System.out.println("opening " + file.getName());
         try {
@@ -48,10 +44,10 @@ public class HistoryManager implements Runnable
             else length = length - 48;
             for(int i = 0; i < length; i++)
             {
-                time = br.readLine();
                 title = br.readLine();
                 url = br.readLine();
-                Main.webPageList.add(new WebPage(url, title, time));
+                Main.bookmarkList.add(new Link(title, url));
+                Main.bookmarkedURL.add(url);
             }
             br.close();
         } catch (IOException e) {
@@ -59,24 +55,23 @@ public class HistoryManager implements Runnable
         }
     }
 
-
-    public void saveHistory()
+    public void saveBookmark()
     {
         try {
             fos = new FileOutputStream(file);
             bw = new BufferedWriter(new OutputStreamWriter(fos));
-            length = Main.webPageList.size();
+            length = Main.bookmarkList.size();
             System.out.println(length);
             bw.write(length + "\n");
             for(int i = 0; i < length; i++)
             {
-                page = Main.webPageList.get(i);
-                bw.write(page.getTime() + "\n");
-                bw.write(page.getTitle() + "\n");
-                bw.write(page.getUrl() + "\n");
+                link = Main.bookmarkList.get(i);
+                bw.write(link.getTitle() + "\n");
+                bw.write(link.getUrl() + "\n");
             }
+            Main.bookmarkList.clear();
+            Main.bookmarkedURL.clear();
             bw.close();
-            Main.webPageList.clear();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

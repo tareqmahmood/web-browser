@@ -48,13 +48,12 @@ public class HistoryViewController implements Initializable
     @FXML
     void deleteAllAction(ActionEvent event) {
         Main.webPageList.clear();
-        HistoryViewController.deletePageList.clear();
+        deletePageList.clear();
 
     }
 
     @FXML
     void deleteSelectedAction(ActionEvent event) {
-        int len = deletePageList.size();
         Main.webPageList.removeAll(deletePageList);
     }
 
