@@ -9,7 +9,7 @@ import java.io.*;
  */
 public class BookmarkManager implements Runnable{
     String filename = "/files/bookmark.txt";
-    public final File file = new File("D:\\Term Project\\Web Browser\\res\\files\\bookmark.txt");
+    public final File file = new File("res/files/bookmark.txt");
     int length;
     FileInputStream fis;
     BufferedReader br;
@@ -38,10 +38,7 @@ public class BookmarkManager implements Runnable{
     public void run() {
         try {
 
-            length = br.read();
-            br.readLine();
-            if(length <= 0) length = 0;
-            else length = length - 48;
+            length = Integer.valueOf(br.readLine());
             for(int i = 0; i < length; i++)
             {
                 title = br.readLine();

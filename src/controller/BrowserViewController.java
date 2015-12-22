@@ -10,10 +10,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Circle;
 import main.Main;
-import model.BookmarkTab;
-import model.HistoryTab;
-import model.Link;
-import model.WebTab;
+import main.Widged;
+import model.*;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -66,6 +64,11 @@ public class BrowserViewController implements Initializable
 
     @FXML
     private MenuItem menuYahoo;
+
+    @FXML
+    void openDownloadTab(ActionEvent event) {
+        new DownloadTab(tabPane, main);
+    }
 
     @FXML
     void bookmarkAction(ActionEvent event) {
@@ -223,11 +226,23 @@ public class BrowserViewController implements Initializable
         WebTab.setController(this);
         HistoryViewController.setController(this);
         BookmarkViewController.setController(this);
+        DownloadController.setController(this);
         BrowserViewController c = this;
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                new WebTab(c);
+                if(Widged.window.size() == 0)
+                {
+                    new WebTab(c);
+                }
+                else
+                {
+                    int len = Widged.window.size();
+                    for(int i = 0; i < len; i++)
+                    {
+                        new WebTab(c, Widged.window.get(i).webView.getEngine().getLocation());
+                    }
+                }
             }
         });
 

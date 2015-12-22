@@ -57,6 +57,7 @@ public class BookmarkTab implements Runnable{
                 tab.setContent(bookmarkRoot);
                 tab.setGraphic(new ImageView("/images/bookmark.png"));
                 tabPane.getTabs().add(tab);
+                tabPane.getSelectionModel().select(tab);
             }
         });
     }

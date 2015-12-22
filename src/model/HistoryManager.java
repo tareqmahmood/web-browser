@@ -12,7 +12,7 @@ import java.util.Date;
 public class HistoryManager implements Runnable
 {
     String filename = "/files/history.txt";
-    public final File file = new File("D:\\Term Project\\Web Browser\\res\\files\\history.txt");
+    public final File file = new File("res/files/history.txt");
     int length;
     FileInputStream fis;
     BufferedReader br;
@@ -42,10 +42,7 @@ public class HistoryManager implements Runnable
     public void run() {
         try {
 
-            length = br.read();
-            br.readLine();
-            if(length <= 0) length = 0;
-            else length = length - 48;
+            length = Integer.valueOf(br.readLine());
             for(int i = 0; i < length; i++)
             {
                 time = br.readLine();

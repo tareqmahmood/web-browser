@@ -1,0 +1,5 @@
+ScrollBarSkin>* {
+    -fx-base: transparent;
+    -fx-border-color: #00ff00;
+    -fx-background-color: #0000ff;
+}

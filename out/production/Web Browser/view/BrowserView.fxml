@@ -34,6 +34,7 @@
         <items>
           <MenuItem mnemonicParsing="false" onAction="#openHistoryTab" text="History" />
           <MenuItem mnemonicParsing="false" onAction="#openBookmarkTab" text="Bookmarks" />
+            <MenuItem mnemonicParsing="false" onAction="#openDownloadTab" text="Downloads" />
         </items>
       </SplitMenuButton>
     </children>

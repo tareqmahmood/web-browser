@@ -16,16 +16,18 @@ import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.event.EventHandler;
 import main.Main;
+import model.download.Download;
+import model.download.DownloadManager;
+
 import javax.imageio.ImageIO;
 import javax.security.auth.callback.Callback;
 import javax.swing.event.HyperlinkListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
-import java.util.Date;
-import java.util.EventListener;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * Created by tareq on 11/26/2015.
@@ -92,6 +94,7 @@ public class WebTab {
             }
         });
         webView = new WebView();
+
         webView.getEngine().setCreatePopupHandler(new javafx.util.Callback<PopupFeatures, WebEngine>() {
             @Override
             public WebEngine call(PopupFeatures param) {
@@ -106,6 +109,7 @@ public class WebTab {
         manager = new java.net.CookieManager();
 
         webEngine = webView.getEngine();
+
         webEngine.getLoadWorker().stateProperty().addListener(
                 new ChangeListener<State>() {
                     public void changed(ObservableValue ov, State oldState, State newState) {
@@ -114,7 +118,7 @@ public class WebTab {
                             Tab currentTab = controller.tabPane.getSelectionModel().getSelectedItem();
                             if (tab == currentTab) controller.txtUrlBar.setText(webEngine.getLocation());
                             else {
-                                System.out.println("Not selected : url not shown");
+                                //System.out.println("Not selected : url not shown");
                             }
                             if (backPressed) {
                                 backPressed = false;
@@ -137,8 +141,10 @@ public class WebTab {
 //                                }
 
                                 isBookmarked = main.bookmarkedURL.contains(webEngine.getLocation());
+                                my.url = webEngine.getLocation();
                                 if(controller.tabPane.getSelectionModel().getSelectedItem() == tab)
                                 {
+                                    controller.txtUrlBar.setText(my.url);
                                     controller.setBookMark(isBookmarked);
                                 }
                             }
@@ -156,7 +162,7 @@ public class WebTab {
                                 if (my.url.length() > 30) tabText = my.url.substring(idx, 30);
                                 else tabText = my.url.substring(idx, my.url.length() - 1);
                                 tab.setText(tabText);
-                                System.out.println("ready call : " + webEngine.getLocation());
+                                //System.out.println("ready call : " + webEngine.getLocation());
                                 tab.setGraphic(pi);
                                 tab.setContent(webView);
                             } catch (Exception e) {
@@ -178,8 +184,9 @@ public class WebTab {
                     {
                         try {
                             URL fileURL = new URL(newValue);
-                            System.out.println("Download : " + fileURL.getFile());
+                            System.out.println("Download : " + fileURL);
                             downloadProperty = true;
+                            DownloadManager.startDownload(fileURL, main);
                             break;
                             //webEngine.getLoadWorker().cancel();
                         } catch (MalformedURLException e) {

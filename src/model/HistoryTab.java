@@ -56,6 +56,7 @@ public class HistoryTab implements Runnable {
                 tab.setContent(historyRoot);
                 tab.setGraphic(new ImageView("/images/history.png"));
                 tabPane.getTabs().add(tab);
+                tabPane.getSelectionModel().select(tab);
             }
         });
     }

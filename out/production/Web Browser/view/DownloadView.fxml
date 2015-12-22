@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.DownloadController">
+    <children>
+        <TextField fx:id="txtURL" layoutX="41.0" layoutY="39.0" onAction="#startAction" prefHeight="25.0" prefWidth="413.0" promptText="Enter direct download link" AnchorPane.leftAnchor="41.0" AnchorPane.rightAnchor="146.0" AnchorPane.topAnchor="39.0" />
+        <Label layoutX="41.0" layoutY="78.0" text="Downloads  " AnchorPane.leftAnchor="41.0" AnchorPane.topAnchor="78.0">
+         <font>
+            <Font size="13.0" />
+         </font></Label>
+        <Button fx:id="btnStart" layoutX="462.0" layoutY="39.0" mnemonicParsing="false" onAction="#startAction" text="Start Download" AnchorPane.rightAnchor="39.0" AnchorPane.topAnchor="39.0" />
+        <TableView fx:id="downloadTable" layoutX="41.0" layoutY="105.0" prefHeight="254.0" prefWidth="521.0" AnchorPane.bottomAnchor="41.0" AnchorPane.leftAnchor="41.0" AnchorPane.rightAnchor="38.0" AnchorPane.topAnchor="105.0">
+            <columns>
+                <TableColumn fx:id="urlColumn" maxWidth="200.0" minWidth="70.0" prefWidth="146.5" text="URL" />
+                <TableColumn fx:id="sizeColumn" maxWidth="100.0" minWidth="70.0" prefWidth="74.0" text="Size" />
+                <TableColumn fx:id="progressColumn" maxWidth="1000.0" prefWidth="98.0" text="Progress" />
+                <TableColumn fx:id="statusColumn" maxWidth="100.0" minWidth="70.0" prefWidth="70.0" text="Status" />
+                <TableColumn fx:id="controlColumn" maxWidth="300.0" minWidth="70.0" prefWidth="144.0" text="Control" />
+            </columns>
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+            </columnResizePolicy>
+        </TableView>
+    </children>
+</AnchorPane>
