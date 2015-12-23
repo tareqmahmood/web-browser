@@ -71,6 +71,7 @@ public class Main extends Application {
         scene.getStylesheets().add(css);
         //scene.getStylesheets().add("sample/progress.css");
         primaryStage.setScene(scene);
+        primaryStage.setMaximized(true);
         stage.iconifiedProperty().addListener(new ChangeListener<Boolean>() {
 
             @Override

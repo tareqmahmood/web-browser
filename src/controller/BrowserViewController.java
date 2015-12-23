@@ -67,7 +67,7 @@ public class BrowserViewController implements Initializable
 
     @FXML
     void openDownloadTab(ActionEvent event) {
-        new DownloadTab(tabPane, main);
+        if(!DownloadTab.isOpened) new DownloadTab(tabPane, main);
     }
 
     @FXML
@@ -154,12 +154,12 @@ public class BrowserViewController implements Initializable
 
     @FXML
     void openHistoryTab(ActionEvent event) {
-        new HistoryTab(tabPane, main);
+        if(!HistoryTab.isOpened) new HistoryTab(tabPane, main);
     }
 
     @FXML
     void openBookmarkTab(ActionEvent event) {
-        new BookmarkTab(tabPane, main);
+        if(!BookmarkTab.isOpened) new BookmarkTab(tabPane, main);
     }
 
     void loadURL(String url)
@@ -240,7 +240,15 @@ public class BrowserViewController implements Initializable
                     int len = Widged.window.size();
                     for(int i = 0; i < len; i++)
                     {
-                        new WebTab(c, Widged.window.get(i).webView.getEngine().getLocation());
+                        if(Widged.window.get(i).webView.getEngine().getLocation() == null)
+                        {
+                            new WebTab(c);
+                        }
+                        else
+                        {
+                            new WebTab(c, Widged.window.get(i).webView.getEngine().getLocation());
+                        }
+
                     }
                 }
             }

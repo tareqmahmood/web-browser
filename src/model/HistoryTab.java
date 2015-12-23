@@ -17,12 +17,14 @@ import java.io.IOException;
  * Created by tareq on 12/4/2015.
  */
 public class HistoryTab implements Runnable {
+    static public boolean isOpened = false;
     Thread thr;
     TabPane tabPane;
     Main main;
     HistoryViewController hController;
     public HistoryTab(TabPane tabPane, Main main)
     {
+        isOpened = true;
         this.main = main;
         this.tabPane = tabPane;
         thr = new Thread(this);
@@ -57,6 +59,12 @@ public class HistoryTab implements Runnable {
                 tab.setGraphic(new ImageView("/images/history.png"));
                 tabPane.getTabs().add(tab);
                 tabPane.getSelectionModel().select(tab);
+                tab.setOnClosed(new EventHandler<Event>() {
+                    @Override
+                    public void handle(Event event) {
+                        isOpened = false;
+                    }
+                });
             }
         });
     }

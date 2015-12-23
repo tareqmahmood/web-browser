@@ -17,12 +17,14 @@ import java.io.IOException;
  * Created by tareq on 12/17/2015.
  */
 public class DownloadTab implements Runnable {
+    static public boolean isOpened = false;
     Thread thr;
     TabPane tabPane;
     Main main;
     DownloadController dController;
     public DownloadTab(TabPane tabPane, Main main)
     {
+        isOpened = true;
         this.main = main;
         this.tabPane = tabPane;
         thr = new Thread(this);
@@ -54,6 +56,12 @@ public class DownloadTab implements Runnable {
             tab.setGraphic(new ImageView("/images/download.png"));
             tabPane.getTabs().add(tab);
             tabPane.getSelectionModel().select(tab);
+            tab.setOnClosed(new EventHandler<Event>() {
+                @Override
+                public void handle(Event event) {
+                    isOpened = false;
+                }
+            });
         });
     }
 }
